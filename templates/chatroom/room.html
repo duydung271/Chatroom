@@ -1,0 +1,306 @@
+{% extends 'layouts/base.html' %} 
+
+{% block title %}Room{% endblock %}
+
+{% block stylesheets %}
+    {%include 'styles/style_room.html'%}
+{%endblock%}
+
+{%block content%}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container-fluid">
+
+    <!-- Content wrapper start -->
+    <div class="content-wrapper">
+
+        <!-- Row start -->
+        <div class="row gutters">
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                <div class="card m-0">
+
+                    <!-- Row start -->
+                    <div class="row no-gutters">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-3 col-3">
+                            <div class="chat-search-box">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Search">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-info">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="users-container" style="height: 600px; overflow: auto">
+                                <ul class="users">
+                                    <li class="person" data-chat="person1">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Steve Bangalter</span>
+                                            <span class="time">15/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person1">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Steve Bangalter</span>
+                                            <span class="time">15/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person1">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Steve Bangalter</span>
+                                            <span class="time">15/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person1">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Steve Bangalter</span>
+                                            <span class="time">15/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person1">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Steve Bangalter</span>
+                                            <span class="time">15/02/2019</span>
+                                        </p>
+                                    </li>
+                                    
+
+                                    <li class="person active-user" data-chat="person2">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar2.png" alt="Retail Admin">
+                                            <span class="status away"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Peter Gregor</span>
+                                            <span class="time">12/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person3">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
+                                            <span class="status busy"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Jessica Larson</span>
+                                            <span class="time">11/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person4">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar4.png" alt="Retail Admin">
+                                            <span class="status offline"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Lisa Guerrero</span>
+                                            <span class="time">08/02/2019</span>
+                                        </p>
+                                    </li>
+                                    <li class="person" data-chat="person5">
+                                        <div class="user">
+                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
+                                            <span class="status away"></span>
+                                        </div>
+                                        <p class="name-time">
+                                            <span class="name">Michael Jordan</span>
+                                            <span class="time">05/02/2019</span>
+                                        </p>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-9 col-9">
+                            <div class="selected-user">
+    
+                                <span>Room ID: <span class="name">1234123</span></span>
+                                <button
+                                    class="btn btn-block btn-gray-800 mb-3"
+                                    data-toggle="modal"
+                                    data-target="#room_details"
+                                    style="background-color:black; color:white; float:right;"
+                                >
+                                    Room Details
+                                </button>
+                            </div>
+                            {% include '../includes/_room_details.html' %}
+                            <div id="chat_box" class="chat-container" style="height: 550px; overflow: auto" >
+                                <ul id ="messages" class="chat-box chatContainerScroll">
+                                    {% comment %} here is message {% endcomment %}
+                                </ul>
+                            </div>
+                            <div class="input-group mb-3" id="input_group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Type your message here..."
+                                    id="send_message"
+                                />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary" type="button" id="send">
+                                    Send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Row end -->
+
+    </div>
+    <!-- Content wrapper end -->
+
+</div>
+{%endblock%}
+{% block javascripts %}
+{{room_name|json_script:"room-name"}}
+{{request.user.username|json_script:"sender"}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    const messages_container = document.getElementById("chat_box");
+    const roomName = JSON.parse(
+      document.getElementById("room-name").textContent
+    );
+    const sender = JSON.parse(document.getElementById("sender").textContent);
+
+    var loc = window.location;
+    var wsStart = "ws://";
+
+    if (loc.protocol == "https:") {
+      var wsStart = "wss://";
+    }
+
+    let chatSocket = new WebSocket(
+      wsStart + window.location.host + "/ws/chatroom/" + roomName + "/"
+    );
+
+    chatSocket.onopen = function (e) {
+      chatSocket.send(
+        JSON.stringify({
+          message: "get-room-messages",
+        })
+      );
+    };
+
+    chatSocket.onmessage = function (e) {
+      let message = JSON.parse(e.data)["message"];
+      if (message["message-type"] == "get-room-messages") {
+        message_body = JSON.parse(message["message-body"]);
+        let saved_messages = "";
+        for (let i = 0; i < message_body.length; i++) {
+          if (message_body[i]["fields"]["sender"] != sender) {
+            saved_messages +=
+                '<li class="chat-left">'+
+                '<div class="chat-avatar">'+
+                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<div class="chat-name">'+message_body[i]["fields"]["sender"]+'</div>'+
+                '</div>'+
+                '<div class="chat-text">'+message_body[i]["fields"]["message"]+'</div>'+
+                '<div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>'+
+                '</li>';
+          } else {
+            saved_messages +=
+              '<li class="chat-right">'+
+                '<div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>'+
+                '<div class="chat-text">'+message_body[i]["fields"]["message"]+'</div>'+
+                '<div class="chat-avatar">'+
+                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<div class="chat-name">'+"You"+'</div>'+
+                '</div>'+
+                '</li>';
+          }
+        }
+        $("#messages").append(saved_messages);
+      } else if (message["message-type"] == "update-online-users") {
+        $("#online").text(message["message-body"]);
+      } else {
+        let output;
+        if (message["message-body"]["sender"] == sender) {
+          output =
+            '<li class="chat-right">'+
+                '<div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>'+
+                '<div class="chat-text">'+message["message-body"]["message"]+'</div>'+
+                '<div class="chat-avatar">'+
+                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<div class="chat-name">'+"You"+'</div>'+
+                '</div>'+
+                '</li>';
+        } else {
+          output =
+             '<li class="chat-left">'+
+                '<div class="chat-avatar">'+
+                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<div class="chat-name">'+message["message-body"]["sender"]+'</div>'+
+                '</div>'+
+                '<div class="chat-text">'+message["message-body"]["message"]+'</div>'+
+                '<div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>'+
+                '</li>';
+        }
+        $("#messages").append(output);
+      }
+      shouldScroll = messages_container.scrollTop + messages_container.clientHeight === messages_container.scrollHeight;
+        if (!shouldScroll) {
+            scrollToBottom();
+        }
+    };
+
+
+    function scrollToBottom() {
+      messages_container.scrollTop = messages_container.scrollHeight;
+    }
+
+    chatSocket.onclose = function (e) {
+      console.error("Chat socket closed unexpectedly");
+    };
+
+    $("#send_message").focus();
+    $("#send_message").keyup(function (e) {
+      if (e.keyCode === 13) {
+        // enter, return
+        $("#send").click();
+      }
+    });
+
+    $("#send").click(function () {
+      let message = $("#send_message").val();
+      chatSocket.send(
+        JSON.stringify({
+          message: message,
+          sender: sender,
+        })
+      );
+      $("#send_message").val("");
+    });
+  });
+</script>
+{%endblock%} 

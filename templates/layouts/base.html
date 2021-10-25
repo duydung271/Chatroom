@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- Primary Meta Tags -->
+
+<title>
+    Chatroom - {% block title %}{% endblock %}
+</title>
+
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="120x120" href="/static/assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="/static/assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="/static/assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+
+<link type="text/css" href="/static/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
+<link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
+<link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{%if True %}
+  {%include 'styles/style_loading_box.html'%}
+{%endif%}
+
+<!-- Specific Page JS goes HERE  -->    
+{% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+<body>
+    <!-- Loading page here  -->  
+    {%if True%} 
+      <div class="loadding-page">
+      <div class="cssload-box-loading"></div>
+      </div>
+    {%endif%}
+
+    <main class="container-fluid jumbotron">
+      {% include 'includes/navigation.html' %}
+      {% block content %} {% endblock content %}
+    </main> 
+
+  {% include 'includes/scripts.html' %}
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}  
+      
+</body>
+</html>
