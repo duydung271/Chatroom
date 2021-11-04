@@ -1,0 +1,32 @@
+
+<script>
+  $(document).ready(function () {
+    var loc = window.location;
+    var wsStart = "ws://";
+
+    if (loc.protocol == "https:") {
+      var wsStart = "wss://";
+    }
+
+    let homeSocket = new WebSocket(
+      wsStart + window.location.host + "/ws/"
+    );
+
+    homeSocket.onmessage = function (e) {
+      let message = JSON.parse(e.data)["message"];
+      if (message["message-type"] == "update-status-user") {
+        let username = message["message-body"];
+        $.get( "http://" + window.location.host+"/api/infor/"+username, function( data ) {
+          $("#"+data.username+"_status").attr('class', 'status '+ data.status);
+          $("#"+data.username+"_last_login").text(data.last_login)
+          
+        }); 
+      }
+    };
+
+    homeSocket.onclose = function (e) {
+      console.error("Chat socket closed unexpectedly");
+    };
+});
+
+</script>

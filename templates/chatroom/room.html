@@ -23,111 +23,9 @@
                     <!-- Row start -->
                     <div class="row no-gutters">
                         <div class="col-xl-3 col-lg-4 col-md-4 col-sm-3 col-3">
-                            <div class="chat-search-box">
-                                <div class="input-group">
-                                    <input class="form-control" placeholder="Search">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-info">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="users-container" style="height: 600px; overflow: auto">
-                                <ul class="users">
-                                    <li class="person" data-chat="person1">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Steve Bangalter</span>
-                                            <span class="time">15/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person1">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Steve Bangalter</span>
-                                            <span class="time">15/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person1">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Steve Bangalter</span>
-                                            <span class="time">15/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person1">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Steve Bangalter</span>
-                                            <span class="time">15/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person1">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar1.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Steve Bangalter</span>
-                                            <span class="time">15/02/2019</span>
-                                        </p>
-                                    </li>
-                                    
-
-                                    <li class="person active-user" data-chat="person2">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar2.png" alt="Retail Admin">
-                                            <span class="status away"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Peter Gregor</span>
-                                            <span class="time">12/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person3">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                                            <span class="status busy"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Jessica Larson</span>
-                                            <span class="time">11/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person4">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar4.png" alt="Retail Admin">
-                                            <span class="status offline"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Lisa Guerrero</span>
-                                            <span class="time">08/02/2019</span>
-                                        </p>
-                                    </li>
-                                    <li class="person" data-chat="person5">
-                                        <div class="user">
-                                            <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                                            <span class="status away"></span>
-                                        </div>
-                                        <p class="name-time">
-                                            <span class="name">Michael Jordan</span>
-                                            <span class="time">05/02/2019</span>
-                                        </p>
-                                    </li>
-                                    
+                                <ul id ="users" class="users">
+                                     {% comment %} here is user {% endcomment %}
                                 </ul>
                             </div>
                         </div>
@@ -135,14 +33,14 @@
                         <div class="col-xl-9 col-lg-8 col-md-8 col-sm-9 col-9">
                             <div class="selected-user">
     
-                                <span>Room ID: <span class="name">1234123</span></span>
+                                <span>Name's Room: <span class="name">{{room_name}}</span></span>
                                 <button
                                     class="btn btn-block btn-gray-800 mb-3"
                                     data-toggle="modal"
                                     data-target="#room_details"
                                     style="background-color:black; color:white; float:right;"
                                 >
-                                    Room Details
+                                    Settings
                                 </button>
                             </div>
                             {% include '../includes/_room_details.html' %}
@@ -214,44 +112,67 @@
 
     chatSocket.onmessage = function (e) {
       let message = JSON.parse(e.data)["message"];
+
       if (message["message-type"] == "get-room-messages") {
-        message_body = JSON.parse(message["message-body"]);
+        message_body = message["message-body"];
         let saved_messages = "";
         for (let i = 0; i < message_body.length; i++) {
-          if (message_body[i]["fields"]["sender"] != sender) {
+          if (message_body[i]["sender"] != sender) {
             saved_messages +=
                 '<li class="chat-left">'+
                 '<div class="chat-avatar">'+
-                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
-                    '<div class="chat-name">'+message_body[i]["fields"]["sender"]+'</div>'+
+                    '<img src="'+message_body[i]["avatar"]+'" alt="Retail Admin">'+
+                    '<div class="chat-name">'+message_body[i]["sender"]+'</div>'+
                 '</div>'+
-                '<div class="chat-text">'+message_body[i]["fields"]["message"]+'</div>'+
-                '<div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>'+
+                '<div class="chat-text">'+message_body[i]["message"]+'</div>'+
+                '<div class="chat-hour">'+message_body[i]["time_sent"]+'</div>'+
                 '</li>';
           } else {
             saved_messages +=
               '<li class="chat-right">'+
-                '<div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>'+
-                '<div class="chat-text">'+message_body[i]["fields"]["message"]+'</div>'+
+                '<div class="chat-hour">'+message_body[i]["time_sent"]+'</div>'+
+                '<div class="chat-text">'+message_body[i]["message"]+'</div>'+
                 '<div class="chat-avatar">'+
-                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<img src="'+message_body[i]["avatar"]+'" alt="Retail Admin">'+
                     '<div class="chat-name">'+"You"+'</div>'+
                 '</div>'+
                 '</li>';
           }
         }
         $("#messages").append(saved_messages);
-      } else if (message["message-type"] == "update-online-users") {
-        $("#online").text(message["message-body"]);
-      } else {
+
+      } else if((message["message-type"] == "get-room-users")){
+        message_body = message["message-body"];
+        var host = window.location.host;
+        for (let i = 0; i < message_body.length; i++) {
+            $.get( "http://" + window.location.host+"/api/infor/"+message_body[i]["username"], function( data ) {
+              if($("#"+data.username +'_last_login').length==0){
+                  let user_infor =
+                  '<li class="person" data-chat="'+data.username+'">'+
+                    '<a href="/profile/'+data.username+'">'+
+                      '<div class="user">'+
+                          '<img src="'+ data.avatar_url+'" alt="Retail Admin">'+
+                          '<span id ="'+data.username+'_status"class=" status '+data.status+'"> </span>'+
+                      '</div>'+
+                      '<p class="name-time">'+
+                          '<span class="name">'+data.username+' </span>'+
+                          '<span id="'+ data.username +'_last_login" class="time">'+data.last_login+' </span>'+
+                      '</p>'+
+                    '</a>'+
+                  '</li>';
+                $("#users").append(user_infor);
+              }
+            });
+        }
+      }else {
         let output;
         if (message["message-body"]["sender"] == sender) {
           output =
             '<li class="chat-right">'+
-                '<div class="chat-hour">08:56 <span class="fa fa-check-circle"></span></div>'+
+                '<div class="chat-hour">'+message["message-body"]["time_sent"]+'</div>'+
                 '<div class="chat-text">'+message["message-body"]["message"]+'</div>'+
                 '<div class="chat-avatar">'+
-                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<img src="'+message["message-body"]["avatar"]+'" alt="Retail Admin">'+
                     '<div class="chat-name">'+"You"+'</div>'+
                 '</div>'+
                 '</li>';
@@ -259,11 +180,11 @@
           output =
              '<li class="chat-left">'+
                 '<div class="chat-avatar">'+
-                    '<img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">'+
+                    '<img src="'+message["message-body"]["avatar"]+'" alt="Retail Admin">'+
                     '<div class="chat-name">'+message["message-body"]["sender"]+'</div>'+
                 '</div>'+
                 '<div class="chat-text">'+message["message-body"]["message"]+'</div>'+
-                '<div class="chat-hour">08:55 <span class="fa fa-check-circle"></span></div>'+
+                '<div class="chat-hour">'+message["message-body"]["time_sent"]+'</div>'+
                 '</li>';
         }
         $("#messages").append(output);

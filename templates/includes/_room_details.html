@@ -4,7 +4,7 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Room Details</h4>
+        <h4 class="modal-title">Room Settings</h4>
         <button type="button" class="close" data-dismiss="modal">
           &times;
         </button>
@@ -12,18 +12,101 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <p><strong>Room Name: </strong>{{ room_name }}</p>
-        <p>
-          <strong>Total users in the server: </strong><span id="online"></span>
-        </p>
+        <p><strong>Name's Room: </strong>{{ room_name }}</p>
+        <p><strong>Host's Room: </strong>{{ host }}</p>
+        {%if request.user.username == host%}
+          <form method="post">
+            {% csrf_token %}
+            {{setting_form}}
+            <button type="submit" id="setting_submit" style="display:none;" aria-hidden="true"></button>
+          </form>
+          {%endif%}
       </div>
-
+      
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-dark" data-dismiss="modal">
-          Close
-        </button>
+          {%if request.user.username == host%}
+            <button id="delete_btn" type="button" class="btn btn-danger" ><a href="{%url 'home:home'%}">Delete Room</a></button>
+          {% else %}
+            <button id="leave_btn" type="button" class="btn btn-danger"><a href="{%url 'home:home'%}">Leave</a></button>
+          {%endif%}
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+
       </div>
     </div>
   </div>
 </div>
+
+{{room_name|json_script:"room-name"}}
+{{request.user.username|json_script:"request_username"}}
+
+<script>
+$(document).ready(function() {
+  const roomName = JSON.parse(
+    document.getElementById("room-name").textContent
+  );
+  const username = JSON.parse(document.getElementById("request_username").textContent);
+
+  $("#settings_password").keydown(function(event){
+    if(event.keyCode == 13) {
+      console.log("caught ya!");
+      $("#setting_submit").click();
+      return false;
+    }
+  });
+   $("#settings_kick").keydown(function(event){
+    if(event.keyCode == 13) {
+      console.log("caught ya!");
+      $("#setting_submit").click();
+      return false;
+    }
+  });
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+  $( "#delete_btn" ).click(function() {
+    $.ajax({
+      url: "http://" + window.location.host+"/api/delete/"+roomName,
+      type: 'DELETE',
+      success: function(result) {
+          // Do something with the result
+      }
+    });
+  });
+  $( "#leave_btn" ).click(function() {
+    $.ajax({
+    url: "http://" + window.location.host+"/api/delete_user_in_room/"+roomName+"/"+username,
+    type: 'DELETE',
+    success: function(result) {
+        // Do something with the result
+        console.log(roomName,username);
+    }
+    });
+  });
+   
+});
+</script>

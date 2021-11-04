@@ -11,4 +11,7 @@ urlpatterns = [
     path('components_modals/', views.components_modals),
     path('components_notifications/', views.components_notifications),
     path('components_typography/', views.components_typography),
+    path('page_403/', views.page_403,name='page_403'),
+    path('page_404/', views.page_404,name='page_404'),
+    path('page_500/', views.page_500,name='page_500'),
 ]

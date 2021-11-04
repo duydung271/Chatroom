@@ -1,9 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
+from django.urls.base import reverse
 
 
 def index(request):
+    if  request.user.is_authenticated:
+        return redirect(reverse('home:home'))
     context = {'segment': 'index'}
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
@@ -44,4 +48,19 @@ def components_notifications(request):
 def components_typography(request):
     context = {'segment': 'components_typography'}
     html_template = loader.get_template('home/components-typography.html')
+    return HttpResponse(html_template.render(context, request))
+
+def page_403(request):
+    context = {'segment': 'page_403'}
+    html_template = loader.get_template('home/page-403.html')
+    return HttpResponse(html_template.render(context, request))
+
+def page_404(request):
+    context = {'segment': 'page_404'}
+    html_template = loader.get_template('home/page-404.html')
+    return HttpResponse(html_template.render(context, request))
+
+def page_500(request):
+    context = {'segment': 'page_500'}
+    html_template = loader.get_template('home/page-500.html')
     return HttpResponse(html_template.render(context, request))
