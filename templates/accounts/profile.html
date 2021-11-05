@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Settings {% endblock %} 
+{% block title %} Profile {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -26,12 +26,18 @@
                     <p class="text-gray mb-4">
                         {{ user.email }}
                     </p>
+
                     {%if user.username != request.user.username%}
-                    <a class="btn btn-sm btn-gray-800 d-inline-flex align-items-center me-2" href="#">
-                        <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
-                        Add friend
-                    </a>
-                    {% comment %} <a class="btn btn-sm btn-secondary" href="#">Send Message</a> {% endcomment %}
+                        {%if not is_friend%}
+                            <button id="addfriend" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center me-2" type='submit'>
+                                <svg class="icon icon-xs me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path></svg>
+                                Add friend
+                            </button>
+                        {%else%}
+                            <button id="unfriend" class="btn btn-sm btn-danger d-inline-flex align-items-center me-2" type='submit'>
+                                Unfriend
+                            </button>
+                        {%endif%}
                     {%endif%}
                 </div>
             </div>
@@ -169,13 +175,79 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
+{%if request.user.username == user.username%}
 <script type="text/javascript">
-    document.getElementById("cover_file").onchange = function() {
+    document.getElementById("cover_file").onchange = function(e) {
         document.getElementById("cover-form").submit();
     };
-    document.getElementById("avatar_file").onchange = function() {
+    document.getElementById("avatar_file").onchange = function(e) {
         document.getElementById("avatar-form").submit();
     };
+</script>
+{%endif%}
+
+{{request.user.username|json_script:"user1"}}
+{{user.username|json_script:"user2"}}
+
+<script>
+$(document).ready(function() {
+    const user1 = JSON.parse(
+        document.getElementById("user1").textContent
+    );
+    const user2 = JSON.parse(
+        document.getElementById("user2").textContent
+    );
+
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+  function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          }
+      }
+  });
+
+  $("#addfriend").click(function() {     
+        $.ajax({
+        url: "http://" + window.location.host+"/api/friend/"+user1+"/"+user2,
+        type: 'get',
+        success: function(result) {
+            window.location.reload(true)
+        }
+      });
+    });
+
+    $("#unfriend").click(function() {     
+        $.ajax({
+        url: "http://" + window.location.host+"/api/friend/"+user1+"/"+user2,
+        type: 'DELETE',
+        success: function(result) {
+            window.location.reload(true)
+        }
+      });
+    });
+
+   
+});
 </script>
 
 {% endblock javascripts %}

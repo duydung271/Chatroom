@@ -11,12 +11,15 @@ class Room(models.Model):
   participants = models.CharField(max_length=1000, default="")
   host = models.CharField(max_length=50,default="")
   password = models.CharField(max_length=50, default="")
+  cover = models.ImageField(default='background.png')
   def __str__(self):
     return self.room_name
   def add_user(self,user_name):
     self.participants+=(user_name+"|")
     self.save()
   def delete_user(self,user_name):
+    if user_name=='' or user_name==None:
+        return "Fail"
     self.participants=self.participants.replace(user_name+'|', '')
     self.save()
   def get_list_user_names(self):

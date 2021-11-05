@@ -10,11 +10,15 @@
         <div class="col-lg-5 col-md-7 mx-auto my-auto">
             <div class="card">
                 <div class="card-body px-lg-5 py-lg-5 text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle avatar-lg img-thumbnail mb-4" alt="profile-image">
-                    <h2 class="text-info">Join Chatroom</h2>
-                    {% comment %} <p class="mb-4">Enter 6-digits code from your athenticatior app.</p> {% endcomment %}
-                    <form method="post">
+                    <form  method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        {{form.cover}}
+                        <img for ='cover-form' src="{{cover}}" class="rounded-circle avatar-lg img-thumbnail mb-4" alt="profile-image">
+                   
+                    <h2 class="text-info">{{title}} Chatroom</h2>
+
+                    <p class="mb-4">{{notice}}</p>
+                  
                         <div class ="container">
                             {{ form.room_name }}
                             {{ form.password }}

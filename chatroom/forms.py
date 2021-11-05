@@ -1,13 +1,13 @@
 from django import forms
 
-class JoinChatroomForm(forms.Form):
+class IndexChatroomForm(forms.Form):
     room_name=forms.CharField(
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Room Name",
                 "class": "form-control"
             }
-        ), required=False
+        ), required=True
     )
     password=forms.CharField(
         widget=forms.TextInput(
@@ -16,6 +16,12 @@ class JoinChatroomForm(forms.Form):
                 "class": "form-control"
             }
         ), required=False
+    )
+    cover = forms.ImageField(required=False, label="",
+        widget=forms.FileInput({
+            'name':"cover-form",
+            'id':"cover-form"
+        })
     )
 
 

@@ -80,12 +80,32 @@
                                     <!-- End of Form -->
                                     <div class="mb-4">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="remember">
+                                            <input class="form-check-input" type="checkbox" value="" id="remember" required>
                                             <label class="form-check-label fw-normal mb-0" for="remember">
-                                                I agree to the <a href="#" class="fw-bold">terms and conditions</a>
+                                                I agree to the <a href="#" class="fw-bold" data-bs-toggle="modal" data-bs-target="#modal-default">terms and conditions</a>
                                             </label>
                                         </div>
                                     </div>
+                                    <!-- Modal Content -->
+                                    <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="h6 modal-title">Terms of Service</h2>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.</p>
+                                                    <p>The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                                                        soon as possible of high-risk data breaches that could personally affect them.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link text-gray-600 ms-auto" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Modal Content -->
                                 </div>
                                 <div class="d-grid">
                                     <button type="submit" name="register" class="btn btn-gray-800">Sign UP</button>

@@ -33,7 +33,7 @@
                         <div class="col-xl-9 col-lg-8 col-md-8 col-sm-9 col-9">
                             <div class="selected-user">
     
-                                <span>Name's Room: <span class="name">{{room_name}}</span></span>
+                                <span>Room Name: <span class="name">{{room_name}}</span></span>
                                 <button
                                     class="btn btn-block btn-gray-800 mb-3"
                                     data-toggle="modal"
@@ -74,7 +74,8 @@
 
     </div>
     <!-- Content wrapper end -->
-
+    <button class="btn btn-warning" id="warningAlert" style="display:none;" aria-hidden="true">Warning alert</button>
+    <a href="{%url 'home:home'%}"><button style="display:none;" id="home_url"></button></a>
 </div>
 {%endblock%}
 {% block javascripts %}
@@ -84,6 +85,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+
+  const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-gray'
+            },
+            buttonsStyling: false
+        });
+
+  document.getElementById('warningAlert').addEventListener('click', function () {
+      swalWithBootstrapButtons.fire(
+          'Warning alert',
+          'You was kicked out or this room was deteled!',
+          'warning'
+      ).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        $("#home_url").click();
+      })
+  });
+
   $(document).ready(function () {
     const messages_container = document.getElementById("chat_box");
     const roomName = JSON.parse(
@@ -142,7 +163,8 @@
         $("#messages").append(saved_messages);
 
       } else if((message["message-type"] == "get-room-users")){
-        message_body = message["message-body"];
+        $("#users").empty()
+        let message_body = message["message-body"];
         var host = window.location.host;
         for (let i = 0; i < message_body.length; i++) {
             $.get( "http://" + window.location.host+"/api/infor/"+message_body[i]["username"], function( data ) {
@@ -164,6 +186,13 @@
               }
             });
         }
+      }else if((message["message-type"] == "get-kicked-user")){
+        if (sender==message["message-body"]){
+          $("#warningAlert").click();
+        }
+      }else if((message["message-type"] == "deleted-room")){
+        
+         $("#warningAlert").click();
       }else {
         let output;
         if (message["message-body"]["sender"] == sender) {
@@ -222,6 +251,39 @@
       );
       $("#send_message").val("");
     });
-  });
+    $( "#delete_btn" ).click(function() {
+      $.ajax({
+        url: "http://" + window.location.host+"/api/delete/"+roomName,
+        type: 'DELETE',
+        success: function(result) {
+        }
+      });
+      chatSocket.send(
+        JSON.stringify({
+          message: 'deleted-room',
+        })
+      );
+    });
+    $( "#leave_btn" ).click(function() {
+      chatSocket.send(
+        JSON.stringify({
+          message: 'update-users-in-room',
+          sender: sender,
+        })
+      );
+    });
+    $("#settings_kick").keydown(function(event){
+      if(event.keyCode == 13) {
+        let kicked_user = $("#settings_kick").val();
+        chatSocket.send(
+          JSON.stringify({
+            message: 'kicked-users-in-room',
+            sender: kicked_user,
+          })
+        );
+        return false;
+      }
+    });
+});
 </script>
 {%endblock%} 

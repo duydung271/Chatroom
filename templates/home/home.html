@@ -12,36 +12,37 @@
             <div class="col-lg-12">
                 <div class="text-center">
                     <ul class="col container-filter portfolioFilte list-unstyled mb-0" id="filter">
-                        <li><a class="categories active" data-filter="*">Function</a></li>
-                        <li><a class="categories" data-filter=".branding">WChat Rooms</a></li>
-                        <li><a class="categories" data-filter=".design">Friend Rooms</a></li>
-                        <li><a class="categories" data-filter=".photo">Your Rooms</a></li>
-                        <li><a class="categories" data-filter=".coffee">coffee</a></li>
+                        <li><a class="categories" data-filter=".all">All</a></li>
+                        <li><a class="categories active" data-filter=".function">Function</a></li>
+                        <li><a class="categories" data-filter=".friend">Friends</a></li>
+                        <li><a class="categories" data-filter=".your">Yours</a></li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="port portfolio-masonry mt-4">
-            <div class="portfolioContainer row photo">
-                <div class="col-lg-4 p-4 ">
+            <div class="portfolioContainer row">
+                {%for item in list_items%}
+                <div class="col-lg-4 p-4 {{item.categories}}">
                     <div class="item-box">
-                        <a class="mfp-image" href="{%url 'chatroom:index_join' 'test'%}" title="Chat room test">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
+                        <a class="mfp-image" href="{%url 'chatroom:index_join' item.room_name%}"title="Chat room test">
+                            <img class="item-container img-fluid" src="{{item.cover}}" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
                                 <div class="item-caption">
-                                    <p class="text-dark mb-0">Test Room</p>
-                                    <h6 class="text-dark mt-1 text-uppercase">For testing chat together</h6>
+                                    <p class="text-dark mb-0">{{item.room_name}}</p>
+                                    <h6 class="text-dark mt-1 text-uppercase">{{item.host}}'s Room</h6>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
+                {%endfor%}
 
-                <div class="col-lg-4 p-4 branding coffee">
+                <div class="col-lg-4 p-4 function">
                     <div class="item-box">
                         <a class="mfp-image" href="{%url 'chatroom:index_create' %}" title="Project Name">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
+                            <img class="item-container img-fluid" src="/media/create.png" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
                                 <div class="item-caption">
                                     <p class="text-dark mb-0">Create Room</p>
@@ -52,10 +53,10 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 p-4 branding photo">
+                <div class="col-lg-4 p-4 function">
                     <div class="item-box">
                         <a class="mfp-image" href="{%url 'chatroom:index'%}" title="Project Name">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
+                            <img class="item-container img-fluid" src="/media/join.png" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
                                 <div class="item-caption">
                                     <p class="text-dark mb-0">Join Room</p>
@@ -66,47 +67,6 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 p-4 branding design photo">
-                    <div class="item-box">
-                        <a class="mfp-image" href="https://via.placeholder.com/800x540/D3D3D3/000000" title="Project Name">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
-                            <div class="item-mask">
-                                <div class="item-caption">
-                                    <p class="text-dark mb-0">Card</p>
-                                    <h6 class="text-dark mt-1 text-uppercase">Therefore Always</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 p-4 design photo">
-                    <div class="item-box">
-                        <a class="mfp-image" href="https://via.placeholder.com/800x540/D3D3D3/000000" title="Project Name">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
-                            <div class="item-mask">
-                                <div class="item-caption">
-                                    <p class="text-dark mb-0">Pepers</p>
-                                    <h6 class="text-dark mt-1 text-uppercase">Therefore Always</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 p-4 branding design coffee">
-                    <div class="item-box">
-                        <a class="mfp-image" href="https://via.placeholder.com/800x540/D3D3D3/000000" title="Project Name">
-                            <img class="item-container img-fluid" src="https://via.placeholder.com/800x540/D3D3D3/000000" alt="work-img">
-                            <div class="item-mask">
-                                <div class="item-caption">
-                                    <p class="text-dark mb-0">Bottle</p>
-                                    <h6 class="text-dark mt-1 text-uppercase">Therefore Always</h6>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -208,7 +168,7 @@ $(window).on('load', function() {
     var $container = $('.portfolioContainer');
     var $filter = $('#filter');
     $container.isotope({
-        filter: '*',
+        filter: '.function',
         layoutMode: 'masonry',
         animationOptions: {
             duration: 750,

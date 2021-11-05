@@ -4,6 +4,8 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.urls.base import reverse
 
+from chatroom.models import Room
+
 
 def index(request):
     if  request.user.is_authenticated:
@@ -14,14 +16,30 @@ def index(request):
 
 @login_required(login_url='login')
 def homeView(request):
-    list_items =list()
-  
+    list_room = Room.objects.all()
+    list_items=list()
+    for room in list_room:
+        infor={}
+        infor['room_name']= room.room_name
+        infor['cover']= room.cover.url
+        infor['categories']='all'
+        infor['host']=room.host
+        if room.host==request.user.username:
+            infor['categories']+=' '+'your'
+        if request.user.profile.is_friend(room.host):
+            infor['categories']+=' '+'friend'
+        list_items.append(infor)
+
     context = {'segment': 'home', 'list_items': list_items}
 
     html_template = loader.get_template('home/home.html')
     return HttpResponse(html_template.render(context, request))
 
-
+@login_required(login_url='login')
+def friendView(request):
+    context = {'segment': 'friends'}
+    html_template = loader.get_template('home/friends.html')
+    return HttpResponse(html_template.render(context, request))
 
 def components_buttons(request):
     context = {'segment': 'components-buttons'}

@@ -12,8 +12,8 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <p><strong>Name's Room: </strong>{{ room_name }}</p>
-        <p><strong>Host's Room: </strong>{{ host }}</p>
+        <p><strong>Name: </strong>{{ room_name }}</p>
+        <p><strong>Host: </strong>{{ host }}</p>
         {%if request.user.username == host%}
           <form method="post">
             {% csrf_token %}
@@ -26,9 +26,9 @@
       <!-- Modal footer -->
       <div class="modal-footer">
           {%if request.user.username == host%}
-            <button id="delete_btn" type="button" class="btn btn-danger" ><a href="{%url 'home:home'%}">Delete Room</a></button>
+           <button id="delete_btn" type="button" class="btn btn-danger" >Delete Room</button>
           {% else %}
-            <button id="leave_btn" type="button" class="btn btn-danger"><a href="{%url 'home:home'%}">Leave</a></button>
+            <a href="{%url 'home:home'%}"><button id="leave_btn" type="button" class="btn btn-danger">Leave</button></a>
           {%endif%}
         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
 
@@ -49,15 +49,14 @@ $(document).ready(function() {
 
   $("#settings_password").keydown(function(event){
     if(event.keyCode == 13) {
-      console.log("caught ya!");
       $("#setting_submit").click();
       return false;
     }
   });
    $("#settings_kick").keydown(function(event){
     if(event.keyCode == 13) {
-      console.log("caught ya!");
       $("#setting_submit").click();
+     
       return false;
     }
   });
@@ -88,25 +87,7 @@ $(document).ready(function() {
           }
       }
   });
-  $( "#delete_btn" ).click(function() {
-    $.ajax({
-      url: "http://" + window.location.host+"/api/delete/"+roomName,
-      type: 'DELETE',
-      success: function(result) {
-          // Do something with the result
-      }
-    });
-  });
-  $( "#leave_btn" ).click(function() {
-    $.ajax({
-    url: "http://" + window.location.host+"/api/delete_user_in_room/"+roomName+"/"+username,
-    type: 'DELETE',
-    success: function(result) {
-        // Do something with the result
-        console.log(roomName,username);
-    }
-    });
-  });
+  
    
 });
 </script>

@@ -107,6 +107,7 @@ def profileView(request,username):
         context['email']= user.email
         context['avatar_form']=avatar_form
         context['cover_form']=cover_form
+        context['is_friend']=profile.is_friend(request.user.username)
     else:
         return redirect("/login/")
         # return ERROR

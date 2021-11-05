@@ -17,12 +17,19 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
         await self.accept()
-
-        
+        user = self.scope['user']
+        if user.is_authenticated:
+            room_users = await database_sync_to_async(self.get_users)()
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'get_room_users',
+                    'message': room_users,
+                }
+            )
 
     async def disconnect(self, code):
         # Leave room group
-        global number_of_users
 
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -32,8 +39,8 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
    
 
     async def receive(self, text_data):
+
         received_data = json.loads(text_data)
-        global number_of_users
 
         if received_data['message'] == 'get-room-messages' and len(received_data)==1:
             room_messages = await database_sync_to_async(self.get_messages)()
@@ -48,7 +55,35 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             }))
 
          
-        else:    
+        elif received_data['message'] == 'update-users-in-room':
+            
+            await database_sync_to_async(self.delete_user_in_room)(received_data['sender'])
+            print(received_data['sender'])
+            room_users = await database_sync_to_async(self.get_users)()
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'get_room_users',
+                    'message': room_users,
+                }
+            )
+        elif received_data['message'] == 'kicked-users-in-room':
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'kick_user',
+                    'message': received_data['sender'],
+                }
+            )
+        elif received_data['message'] == 'deleted-room':
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'delete_room',
+                    'message': 'kick_all_user',
+                }
+            )
+        else:
             data_mess_filter=await database_sync_to_async(self.save_messages)(received_data)
             await self.channel_layer.group_send(
                 self.room_group_name,
@@ -63,7 +98,23 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': {'message-type':'send-group-message', 'message-body':message}
         }))
-
+    
+    async def get_room_users(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({
+            'message': {'message-type':'get-room-users', 'message-body':message}
+        }))
+    
+    async def kick_user(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({
+            'message': {'message-type':'get-kicked-user', 'message-body':message}
+        }))
+    async def delete_room(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps({
+            'message': {'message-type':'deleted-room', 'message-body':message}
+        }))
     def get_messages(self):
         try:
         # if room exists get messages
@@ -114,3 +165,7 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
                     'avatar': message.sender.profile.avatar.url,
                     'time_sent': message.date_sent.strftime("%H:%M")
                 }
+
+    def delete_user_in_room(self,username):
+        room = Room.objects.get(room_name=self.room_name)
+        room.delete_user(username)
