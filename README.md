@@ -25,6 +25,19 @@ Bài tập lớn Python
 
 - Có thể dùng ngork để demo cho người khác(deploy trong 1 nốt nhạc)
 
+**Nguồn template:**
+- https://github.com/app-generator/django-dashboard-volt
+- https://www.bootdey.com/snippets/view/2FA-Security-form
+- https://www.bootdey.com/snippets/view/portfolio-grid-with-filter-menu-and-isotopejs
+- https://www.bootdey.com/snippets/view/css-loading-box
+- https://www.bootdey.com/snippets/view/bs4-simple-chat-app
+
+**Nguồn tham khảo:**
+- Project: https://github.com/markbirds/Django-Chat-Rooms
+- Document Channels: https://channels.readthedocs.io/en/stable, https://www.youtube.com/watch?v=F4nwRQPXD8w
+- Django Web Framework: https://www.youtube.com/watch?v=F5mRW0jo-U4&t=12066s, https://www.youtube.com/c/VNEGG
+- css, js, html, jquery: https://www.w3schools.com/
+
 **Sơ đồ Use Case Diagram**
 ![UML](https://github.com/duydung271/Chatroom/blob/master/demo/Use%20Case%20Diagram.png)
 
