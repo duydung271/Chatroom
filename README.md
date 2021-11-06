@@ -23,6 +23,8 @@ Bài tập lớn Python
 
 - Sau đó cài các gói cần thiết: **pip install - r .\requirements.txt**
 
+- Có thể dùng ngork để demo cho người khác(deploy trong 1 nốt nhạc)
+
 **Sơ đồ Use Case Diagram**
 ![UML](https://github.com/duydung271/Chatroom/blob/master/demo/Use%20Case%20Diagram.png)
 
