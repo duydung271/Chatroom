@@ -14,6 +14,15 @@ Bài tập lớn Python
 - Nhắn tin
 - Kết bạn
 
+**Settings**
+- Python
+
+- Đầu tiên cài môi trường:  **pip -m venv env**
+
+- Bật môi trường: **.\env\Scripts\activate**
+
+- Sau đó cài các gói cần thiết: **pip install - r .\requirements.txt**
+
 **Sơ đồ Use Case Diagram**
 ![UML](https://github.com/duydung271/Chatroom/blob/master/demo/Use%20Case%20Diagram.png)
 
