@@ -12,8 +12,8 @@
             <div class="col-lg-12">
                 <div class="text-center">
                     <ul class="col container-filter portfolioFilte list-unstyled mb-0" id="filter">
-                        <li><a class="categories" data-filter=".all">All</a></li>
-                        <li><a class="categories active" data-filter=".function">Function</a></li>
+                        <li><a class="categories active" data-filter=".all">All</a></li>
+                        <li><a class="categories" data-filter=".function">Function</a></li>
                         <li><a class="categories" data-filter=".friend">Friends</a></li>
                         <li><a class="categories" data-filter=".your">Yours</a></li>
                     </ul>
@@ -29,7 +29,7 @@
                         <a class="mfp-image" href="{%url 'chatroom:index_join' item.room_name%}"title="Chat room test">
                             <img class="item-container img-fluid" src="{{item.cover}}" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
-                                <div class="item-caption">
+                                <div class="item-caption" style="background: rgba(255,255, 255, 0.7);">
                                     <p class="text-dark mb-0">{{item.room_name}}</p>
                                     <h6 class="text-dark mt-1 text-uppercase">{{item.host}}'s Room</h6>
                                 </div>
@@ -44,7 +44,7 @@
                         <a class="mfp-image" href="{%url 'chatroom:index_create' %}" title="Project Name">
                             <img class="item-container img-fluid" src="/media/create.png" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
-                                <div class="item-caption">
+                                <div class="item-caption" style="background: rgba(255,255, 255, 0.7);">
                                     <p class="text-dark mb-0">Create Room</p>
                                     <h6 class="text-dark mt-1 text-uppercase">For creating room</h6>
                                 </div>
@@ -58,7 +58,7 @@
                         <a class="mfp-image" href="{%url 'chatroom:index'%}" title="Project Name">
                             <img class="item-container img-fluid" src="/media/join.png" alt="work-img" style="width:400px;height:220px;">
                             <div class="item-mask">
-                                <div class="item-caption">
+                                <div class="item-caption" style="background: rgba(255,255, 255, 0.7);">
                                     <p class="text-dark mb-0">Join Room</p>
                                     <h6 class="text-dark mt-1 text-uppercase">Joining Room</h6>
                                 </div>
@@ -121,7 +121,7 @@
 }
 
 .item-box .item-mask {
-  background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.01);
   position: absolute;
   transition: all 0.5s ease-in-out 0s;
   -moz-transition: all 0.5s ease-in-out 0s;
@@ -131,7 +131,7 @@
   left: 10px;
   bottom: 10px;
   right: 10px;
-  opacity: 0.9;
+  opacity: 1;
   visibility: visible;
   overflow: hidden;
   text-align: center;
@@ -145,6 +145,7 @@
 }
 
 .item-box:hover .item-mask {
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
   opacity: 1;
   visibility: visible;
   cursor: pointer !important;
@@ -168,7 +169,7 @@ $(window).on('load', function() {
     var $container = $('.portfolioContainer');
     var $filter = $('#filter');
     $container.isotope({
-        filter: '.function',
+        filter: '.all',
         layoutMode: 'masonry',
         animationOptions: {
             duration: 750,

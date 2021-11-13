@@ -9,7 +9,7 @@ class TaskInline(admin.TabularInline):
 
 class RoomAdmin(admin.ModelAdmin):
     fieldsets = [
-        ("Room",{'fields': ['room_name','participants','password','host']}),
+        ("Room",{'fields': ['room_name','participants','password','host', 'cover']}),
     ]
     inlines = [TaskInline]
 

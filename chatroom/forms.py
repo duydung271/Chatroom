@@ -20,7 +20,9 @@ class IndexChatroomForm(forms.Form):
     cover = forms.ImageField(required=False, label="",
         widget=forms.FileInput({
             'name':"cover-form",
-            'id':"cover-form"
+            'id':"cover-form",
+            "class" : "input-cover",
+            'accept': "image/*" 
         })
     )
 
